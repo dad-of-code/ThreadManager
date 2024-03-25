@@ -141,11 +141,15 @@ Public Class ThreadManager
 			Dim cts = threadTuple.CTS
 			cts.Cancel() ' Signal cancellation to the thread
 
-			' Optional: Wait a bit for the thread to finish
-			If Not targetThread.Join(TimeSpan.FromSeconds(2)) Then
-				targetThread.Interrupt() ' Force the thread to stop
-			End If
-			threads.TryRemove(name, Nothing)
+			Try
+				' Optional: Wait a bit for the thread to finish
+				If Not targetThread.Join(TimeSpan.FromSeconds(2)) Then
+					targetThread.Interrupt() ' Force the thread to stop
+				End If
+				threads.TryRemove(name, Nothing)
+			Catch ex As Exception
+			
+			End Try
 		Else
 
 		End If
